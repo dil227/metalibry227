@@ -1,39 +1,62 @@
 import streamlit as st
 import random
+
+from streamlit import columns
+
 with st.sidebar:
     st.title("**Metacognition**")
     page = st.radio("How is your energy?",
                     [
                         "Home",
+                        "Productivity",
                         "Trivial Decision",
                         "Travel",
                         "Thinking process",
-                        "Therapy"
-                        "Productivity"
+                        "Outcomes",
+                        "Therapy",
+
                     ])
 
 if page == "Home":
-    st.write("**Your daily Navigator**")
-    c1,c2,c3 = st.columns(3)
-    with c1:
-        st.write("Make sure you live the day")
-    with c2:
-        st.markdown("**He is everywhere**")
-        st.text_input("Which Names of His did you experience today?")
-    with c3:
-        st.text_input("How many times did you pray today??")
+    st.title("**Metacognition**")
+    st.write("Metacognition is thinking "
+             "about our own thinking process")
 
-    st.divider()
+    with st.container(border= True):
+        st.write("Help tips to get the most from this project")
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.write("**Productivity: Boost your productivity**")
+
+        with c2:
+            st.write("**Trivial Decisions: Leaving it to the chance to decide**")
+        with c3:
+            st.write("**Travel: Travel checklist etc**")
+
+        c3, c4, c5 = st.columns(3)
+        with c3:
+            st.write("**Thinking: Map your thinking process**")
+        with c4:
+            st.write("**Therapy: Distress tolerance therapy for self help**")
+        with c5:
+            st.write("**Outcomes: Report outcomes**")
+
+
+
+
 
 
 
 if page == "Productivity":
-        st.subheader("Daily Productivity & Mood Tracker")
+    st.write("Try it! sometimes it is easy "
+             "to follow a task "
+             "if it is already decided "
+             "thus reducing cognitive load")
         # --- Config ---
 
-        POINTS_PER_TASK = 25
-        PRAYER_BONUS = 25
-        tasks = [
+    POINTS_PER_TASK = 25
+    PRAYER_BONUS = 25
+    tasks = [
             "Eat x2 ",
             "Code 💻",
             "Hot tub 🛁",
@@ -51,30 +74,51 @@ if page == "Productivity":
             "Skin care💆",
             "Exercise 🏋️",
             "Family/Friends 👨‍👩‍👧"
-        ]
+    ]
 
         # --- Inputs for today ---
-        st.write("Check everything you did today:")
-        checks = {t: st.checkbox(t, key=f"task_{t}") for t in tasks}
+    st.write("Check everything you did today:")
+    checks = {t: st.checkbox(t, key=f"task_{t}") for t in tasks}
 
         # --- Scores ---
-        score_daily = sum(checks.values()) * POINTS_PER_TASK
-        st.write("### Daily productivity score:", score_daily)
+    score_daily = sum(checks.values()) * POINTS_PER_TASK
+    st.write("### Daily productivity score:", score_daily)
+    if score_daily <= 100:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("** What activity involves less time and energy?** 🧘")
+            with c2:
+                st.write("**you dont have to leave  your comfort zone  "
+                         " Zone for this one**")
+            with c3:
+                st.write("**Pair first task with music**")
+    elif score_daily <= 200:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("**Maybe go out?**")
+            with c2:
+                st.write("**Do it for the sake of doing it?**")
+            with c3:
+                st.write("**Today's efforts will bring tomorrow's results**")
+    elif score_daily <= 300:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("**What do you think is the main driver for "
+                         "high level productivity?**")
+            with c2:
+                st.write("**Sometimes I wonder, if "
+                         "I set expectation too high to fail**")
+            with c3:
+                st.write("**Its not until you fall that "
+                         "you fly!**")
 
-        # Mood
-        if score_daily <= 100:
-            mood = "Awful 😞"
-        elif score_daily <= 200:
-            mood = "Bad 😔"
-        elif score_daily <= 300:
-            mood = "Normal 😐"
-        elif score_daily <= 400:
-            mood = "Good 🙂"
-        else:
-            mood = "Great 😄"
-        st.subheader(f"**Mood:** {mood}")
-        st.write("**for i in tasks:"
-                 "Notice what m in mood corelates with i**")
+    elif score_daily <= 400:
+            mood = "Peace"
+
+    st.divider()
+    st.title("**for i in tasks"
+            " correlate m in mood**")
+
 
 
 if page == "Trivial Decision":
@@ -83,15 +127,15 @@ if page == "Trivial Decision":
                              max_value=15,
                              step=1)
 
-    eating_options = []
+    options = []
 
     for i in range(person):  # number of options you want
         item = st.text_input(f"Option {i+1}")
-        eating_options.append(item)
+        options.append(item)
 
     if st.button("Decide"):
-        if eating_options:
-            st.success(random.choice(eating_options))
+        if options:
+            st.success(random.choice(options))
         else:
             st.warning("Enter at least one option")
 
@@ -115,27 +159,28 @@ if page == "Trivial Decision":
             "Try writing",
             "Get Ice_cream",
             "Drink Pepsi",
-            "Appearences can be deceptive",
-            "Remember to turn on the light!",
-            "Denial",
-            "Go with option B"
-        ]
+        "Appearences can be deceptive",
+        "Remember to turn on the light!",
+        "Denial",
+        "Go with option B"
+    ]
 
     if st.button("Get suggestion"):
-            choice = random.choice(answers)
+        choice = random.choice(answers)
 
 if page == "Travel":
-    st.header("**Travel checklist**")
-    options=[ "passport",
-              "cards",
-              "phone",
-              "Charger",
-              "books",
-              "Laptop",
-              "headphones"]
-    st.markdown("Mark everything you have checked")
-    for i in options:
-        st.checkbox(i)
+    with st.container(border=True):
+        st.header("**Travel checklist**")
+        options = ["passport",
+                   "cards",
+                   "phone",
+                   "Charger",
+                   "books",
+                   "Laptop",
+                   "headphones"]
+        st.markdown("Mark everything you have checked")
+        for i in options:
+            st.checkbox(i)
 if page == "Therapy":
     st.title("Distress tolerance therapy")
     with st.container(border= True):
@@ -236,10 +281,14 @@ if page == "Thinking process":
             ]
         motives_2 = Motivector(motives)
     with tab_intentions:
-        st.write("coming soon")
+        st.write("Loading")
 
 
     with tab_actions:
-        st.markdown("coming soon")
+        st.markdown("Refer to productivity")
 
+
+if page == "Outcomes":
+    with st.container(border= True):
+        st.write("may use experience vector")
 

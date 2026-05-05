@@ -9,6 +9,7 @@ with st.sidebar:
                         "Travel",
                         "Thinking process",
                         "Therapy"
+                        "Productivity"
                     ])
 
 if page == "Home":
@@ -26,7 +27,54 @@ if page == "Home":
 
 
 
+elif page == "Productivity":
+        st.subheader("Daily Productivity & Mood Tracker")
+        # --- Config ---
 
+        POINTS_PER_TASK = 25
+        PRAYER_BONUS = 25
+        tasks = [
+            "Eat x2 ",
+            "Code 💻",
+            "Hot tub 🛁",
+            "Swimming 🏊",
+            "Ice cream 🍦",
+            "Game",
+            "TV 📺",
+            "Read 📖",
+            "Write ✍️",
+            "Drive 🚗",
+            "Park 🏞️",
+            "Clean 🧹",
+            "Cook 🍳",
+            "Protein🥩",
+            "Skin care💆",
+            "Exercise 🏋️",
+            "Family/Friends 👨‍👩‍👧"
+        ]
+
+        # --- Inputs for today ---
+        st.write("Check everything you did today:")
+        checks = {t: st.checkbox(t, key=f"task_{t}") for t in tasks}
+
+        # --- Scores ---
+        score_daily = sum(checks.values()) * POINTS_PER_TASK
+        st.write("### Daily productivity score:", score_daily)
+
+        # Mood
+        if score_daily <= 100:
+            mood = "Awful 😞"
+        elif score_daily <= 200:
+            mood = "Bad 😔"
+        elif score_daily <= 300:
+            mood = "Normal 😐"
+        elif score_daily <= 400:
+            mood = "Good 🙂"
+        else:
+            mood = "Great 😄"
+        st.subheader(f"**Mood:** {mood}")
+        st.write("**for i in tasks:"
+                 "Notice what m in mood corelates with i**")
 
 
 if page == "Trivial Decision":

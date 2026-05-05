@@ -1,0 +1,197 @@
+import streamlit as st
+import random
+with st.sidebar:
+    st.title("**Metacognition**")
+    page = st.radio("How is your energy?",
+                    [
+                        "Home",
+                        "Trivial Decision",
+                        "Travel",
+                        "Thinking process",
+                        "Therapy"
+                    ])
+
+if page == "Home":
+    st.write("**Your daily Navigator**")
+    c1,c2,c3 = st.columns(3)
+    with c1:
+        st.write("Make sure you live the day")
+    with c2:
+        st.markdown("**He is everywhere**")
+        st.text_input("Which Names of His did you experience today?")
+    with c3:
+        st.text_input("How many times did you pray today??")
+
+    st.divider()
+
+
+
+
+
+
+if page == "Trivial Decision":
+    person = st.number_input("How many total variables?",
+                             min_value= 1,
+                             max_value=15,
+                             step=1)
+
+    eating_options = []
+
+    for i in range(person):  # number of options you want
+        item = st.text_input(f"Option {i+1}")
+        eating_options.append(item)
+
+    if st.button("Decide"):
+        if eating_options:
+            st.success(random.choice(eating_options))
+        else:
+            st.warning("Enter at least one option")
+
+    st.divider()
+    st.header("Random Suggestions")
+    answers = [
+            "You can see what they say",
+            "If you are asking you probably have one option",
+            "Is money a factor?",
+            "Is family involved?",
+            "Seek Guidance through prayers and patience",
+            "Show them your harsh side",
+            "cant hear, cant see, cant say",
+            "vibes are positive",
+            "Get some water",
+            "Go driving to clear your mind",
+            "Reply professionally",
+            "Ask again with different beliefs",
+            "Are lies involve?",
+            "Epistemic bias",
+            "Try writing",
+            "Get Ice_cream",
+            "Drink Pepsi",
+            "Appearences can be deceptive",
+            "Remember to turn on the light!",
+            "Denial",
+            "Go with option B"
+        ]
+
+    if st.button("Get suggestion"):
+            choice = random.choice(answers)
+
+if page == "Travel":
+    st.header("**Travel checklist**")
+    options=[ "passport",
+              "cards",
+              "phone",
+              "Charger",
+              "books",
+              "Laptop",
+              "headphones"]
+    st.markdown("Mark everything you have checked")
+    for i in options:
+        st.checkbox(i)
+if page == "Therapy":
+    st.title("Distress tolerance therapy")
+    with st.container(border= True):
+        st.header("step one: Relax")  # REST(R for relax, E for evaluate, S for select action, T for take actions
+
+        thought_1 = st.text_input("What is first thought??", key="t1")
+        st.text_input("what is past experience with this thought?", key="p1")
+        thought_2 = st.text_input("What is second thought??")
+        thought_3 = st.text_input("What is 3rd thought??")
+        thought_4 = st.text_input("What is fourth thought??")
+
+        # Display chain
+        st.write(
+            f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
+
+
+    with st.container(border=True):
+        st.header("Step Two:Evaluate")
+        class Evaluate:
+            def __init__(self, options, key):
+                self.selected = st.multiselect(
+                    "What is your Reasoning process?",
+                    options,
+                    key=key
+                )
+
+
+        # evaluate thinking error
+        distortions = [
+            "Black-and-white thinking",
+            "It should go my way",
+            "IS this a pattern?",
+            "Catastrophizing",
+            "Discounting the positive",
+            "Emotional reasoning",
+            "Fortune telling",
+            "predicting someone else's nice behaviour",
+            "Entitelment",
+            "False sense of helplessness- A paradox",
+            "False sense of responsibility"
+        ]
+
+        errors = Evaluate(distortions, key="errors")
+
+        if "Emotional reasoning" in errors.selected:
+            st.write("Distinguish facts from emotions")
+            st.write("Try something productive if intensity is high")
+        elif "predicting someone else's nice behaviour" in errors.selected:
+            st.write("You have met worse")
+        elif "Catastropihizing" in errors.selected:
+            st.write("You have been through worse")
+        elif "Entitelment" in errors.selected:
+            st.write("then to him is your return")
+        elif "False sense of helplessness" in errors.selected:
+            st.write("Seek Guidance through Sbr and Salah!")
+        elif "Discounting the positive" in errors.selected:
+            st.write("Maybe the Context is wrong")
+        elif "Shoulding" in errors.selected:
+            st.write("Surrender versus control")
+
+
+if page == "Thinking process":
+    tab_Emotional_Awarness, tab_Motives, tab_intentions,  tab_actions, = st.tabs(
+        ["Emotions", "Motives", "Intentions", "Actions"])
+
+    # find out your emotions-----------------
+    with tab_Emotional_Awarness:
+        st.header("How you feeling?")
+
+
+        # creating classes
+        class Mood:
+            def __init__(self, options):
+                self.selected = st.multiselect("What do you feel?", options)
+
+
+
+        Mood_options = [
+            "Happy 😊", "Sad 😢",
+            "Great", "Awful",
+            "Frustrated","aroused",
+            "Drained"
+        ]
+
+        mood_1 = Mood(Mood_options)
+
+    with tab_Motives:
+        class Motivector:
+            def __init__(self, options):
+                self.selected = st.multiselect("What are your motives/Beliefs?", options)
+        motives = [
+            "Gain something",
+            "change outcomes",
+            "Change myself",
+            "Continue current trajectory",
+            "Least_time Principle",
+            "Pleasure Principle"
+            ]
+        motives_2 = Motivector(motives)
+    with tab_intentions:
+        st.write("coming soon")
+
+
+    with tab_actions:
+        st.markdown("coming soon")
+
+

@@ -27,7 +27,7 @@ if page == "Home":
 
 
 
-elif page == "Productivity":
+if page == "Productivity":
         st.subheader("Daily Productivity & Mood Tracker")
         # --- Config ---
 

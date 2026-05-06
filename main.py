@@ -13,7 +13,8 @@ with st.sidebar:
                         "Travel",
                         "Thinking process",
                         "Outcomes",
-                        "Therapy",
+                        "CB Therapy",
+                        "DB Therapy"
 
                     ])
 
@@ -99,7 +100,7 @@ if page == "Productivity":
             with c2:
                 st.write("**Do it for the sake of doing it?**")
             with c3:
-                st.write("**Today's efforts will bring tomorrow's results**")
+                st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
     elif score_daily <= 300:
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -181,31 +182,27 @@ if page == "Travel":
         st.markdown("Mark everything you have checked")
         for i in options:
             st.checkbox(i)
+
 if page == "Therapy":
     st.title("Distress tolerance therapy")
-    with st.container(border= True):
-        st.header("step one: Relax")  # REST(R for relax, E for evaluate, S for select action, T for take actions
+    with tab_dbt:
+        with st.container(border=True):
+            st.header("step one: Relax")  # REST(R for relax, E for evaluate, S for select action, T for take actions
 
-        thought_1 = st.text_input("What is first thought??", key="t1")
-        st.text_input("what is past experience with this thought?", key="p1")
-        thought_2 = st.text_input("What is second thought??")
-        thought_3 = st.text_input("What is 3rd thought??")
-        thought_4 = st.text_input("What is fourth thought??")
+    thought_1 = st.text_input("What is first thought??", key="t1")
+    st.text_input("what is past experience with this thought?", key="p1")
+    thought_2 = st.text_input("What is second thought??")
+    thought_3 = st.text_input("What is 3rd thought??")
+    thought_4 = st.text_input("What is fourth thought??")
 
-        # Display chain
-        st.write(
-            f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
-
-
+    # Display chain
+    st.write(
+        f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
     with st.container(border=True):
         st.header("Step Two:Evaluate")
-        class Evaluate:
-            def __init__(self, options, key):
-                self.selected = st.multiselect(
-                    "What is your Reasoning process?",
-                    options,
-                    key=key
-                )
+        st.write("")
+
+
 
 
         # evaluate thinking error
@@ -223,23 +220,7 @@ if page == "Therapy":
             "False sense of responsibility"
         ]
 
-        errors = Evaluate(distortions, key="errors")
 
-        if "Emotional reasoning" in errors.selected:
-            st.write("Distinguish facts from emotions")
-            st.write("Try something productive if intensity is high")
-        elif "predicting someone else's nice behaviour" in errors.selected:
-            st.write("You have met worse")
-        elif "Catastropihizing" in errors.selected:
-            st.write("You have been through worse")
-        elif "Entitelment" in errors.selected:
-            st.write("then to him is your return")
-        elif "False sense of helplessness" in errors.selected:
-            st.write("Seek Guidance through Sbr and Salah!")
-        elif "Discounting the positive" in errors.selected:
-            st.write("Maybe the Context is wrong")
-        elif "Shoulding" in errors.selected:
-            st.write("Surrender versus control")
 
 
 if page == "Thinking process":
@@ -283,12 +264,59 @@ if page == "Thinking process":
     with tab_intentions:
         st.write("Loading")
 
-
     with tab_actions:
         st.markdown("Refer to productivity")
 
-
 if page == "Outcomes":
-    with st.container(border= True):
+    with st.container(border=True):
         st.write("may use experience vector")
+
+if page == "CB Therapy":
+    tab_goal, tab_values, tab_activities = st.tabs(["Goals", "Values", "Activities"])
+
+    with tab_goal:
+        with st.container(border=True):
+            st.header("Step 1: Make a goal")
+            st.write(" A goal can be for a day,"
+                     " a week,"
+                     " a month,"
+                     " a year,"
+                     " A decade")
+
+    with tab_values:
+        with st.container(border=True):
+            st.header("Step 2: Identify your values")
+            st.write("What do you value most?"
+                 "**YOU CAN FIND OUT IN SIMPLE STEPS**")
+            st.write("1. write down your daily activities for a week")
+            st.write("2. Group related activities")
+            st.write("3. Identify the reasons you did each activity")
+
+        with st.container(border=True):
+            st.write("Most of your values belong to  FOLLOWING  classes:")
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("**Physical needs**")
+            with c2:
+                st.write("**Faith**")
+            with c3:
+                st.write("**BELONGING**")
+
+            c1, c2 = st.columns(2)
+            with c1:
+                st.write("**Relationship**")
+            with c2:
+                st.write("**Career**")
+    with tab_activities:
+        st.markdown("Most efficient move is to start with action")
+        st.write("Identify what is important to you right now")
+        # domains = spirtual, relationship, career, physical
+        st.write("Based on the same Values, "
+                 "can you identify five life-giving "
+                 "activity you can do "
+                 "right now?")
+        st.write("Make a list based on difficulty level")
+        st.write("you can pair it with your most favorite "
+                 "activities like music because "
+                 "they have spill_over effects")
 

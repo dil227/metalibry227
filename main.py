@@ -49,76 +49,12 @@ if page == "Home":
 
 
 if page == "Productivity":
-    st.write("Try it! sometimes it is easy "
-             "to follow a task "
-             "if it is already decided "
-             "thus reducing cognitive load")
+    with st.container(border=True):
+        st.write("Try it! sometimes it is easy "
+                 "to follow a task "
+                 "if it is already decided "
+                 "thus reducing cognitive load")
         # --- Config ---
-
-    POINTS_PER_TASK = 25
-    PRAYER_BONUS = 25
-    tasks = [
-            "Eat x2 ",
-            "Code 💻",
-            "Hot tub 🛁",
-            "Swimming 🏊",
-            "Ice cream 🍦",
-            "Game",
-            "TV 📺",
-            "Read 📖",
-            "Write ✍️",
-            "Drive 🚗",
-            "Park 🏞️",
-            "Clean 🧹",
-            "Cook 🍳",
-            "Protein🥩",
-            "Skin care💆",
-            "Exercise 🏋️",
-            "Family/Friends 👨‍👩‍👧"
-    ]
-
-        # --- Inputs for today ---
-    st.write("Check everything you did today:")
-    checks = {t: st.checkbox(t, key=f"task_{t}") for t in tasks}
-
-        # --- Scores ---
-    score_daily = sum(checks.values()) * POINTS_PER_TASK
-    st.write("### Daily productivity score:", score_daily)
-    if score_daily <= 100:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("** What activity involves less time and energy?** 🧘")
-            with c2:
-                st.write("**you dont have to leave  your comfort zone  "
-                         " Zone for this one**")
-            with c3:
-                st.write("**Pair first task with music**")
-    elif score_daily <= 200:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("**Maybe go out?**")
-            with c2:
-                st.write("**Do it for the sake of doing it?**")
-            with c3:
-                st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
-    elif score_daily <= 300:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("**What do you think is the main driver for "
-                         "high level productivity?**")
-            with c2:
-                st.write("**Sometimes I wonder, if "
-                         "I set expectation too high to fail**")
-            with c3:
-                st.write("**Its not until you fall that "
-                         "you fly!**")
-
-    elif score_daily <= 400:
-            mood = "Peace"
-
-    st.divider()
-    st.title("**for i in tasks"
-            " correlate m in mood**")
 
 
 
@@ -183,6 +119,10 @@ if page == "Travel":
         for i in options:
             st.checkbox(i)
 
+
+#-------------------------------
+
+
 if page == "Therapy":
     st.title("Distress tolerance therapy")
     with tab_dbt:
@@ -222,6 +162,8 @@ if page == "Therapy":
 
 
 
+#----------------------------
+
 
 if page == "Thinking process":
     tab_Emotional_Awarness, tab_Motives, tab_intentions,  tab_actions, = st.tabs(
@@ -229,15 +171,7 @@ if page == "Thinking process":
 
     # find out your emotions-----------------
     with tab_Emotional_Awarness:
-        st.header("How you feeling?")
-
-
-        # creating classes
-        class Mood:
-            def __init__(self, options):
-                self.selected = st.multiselect("What do you feel?", options)
-
-
+        st.header("Emotional Evaluation?")
 
         Mood_options = [
             "Happy 😊", "Sad 😢",
@@ -245,8 +179,22 @@ if page == "Thinking process":
             "Frustrated","aroused",
             "Drained"
         ]
-
-        mood_1 = Mood(Mood_options)
+        st.multiselect("What do you feel?", Mood_options)
+        Prceding_evnts = ["Something did  not go as expected",
+                          "Something unfair",
+                          "Something unpleasant",
+                          "I dont know",
+                          ]
+        st.multiselect("what happened?", Prceding_evnts)
+        post_event = ["",
+                      "Patience",
+                      "Perseverance",
+                      "Assesrtive",
+                      "Whatever Clamity befalls you",
+                      "Honestly",
+                      "Gratitude",
+                      "Generous",
+                      "What is the point?"]
 
     with tab_Motives:
         class Motivector:
@@ -266,6 +214,10 @@ if page == "Thinking process":
 
     with tab_actions:
         st.markdown("Refer to productivity")
+
+
+#----------------------------
+
 
 if page == "Outcomes":
     with st.container(border=True):
@@ -319,4 +271,100 @@ if page == "CB Therapy":
         st.write("you can pair it with your most favorite "
                  "activities like music because "
                  "they have spill_over effects")
+
+        POINTS_PER_TASK = 25
+        PRAYER_BONUS = 25
+        st.write("**Check everything you did today in each domain:**")
+        with st.container(border=True):
+            st.title("Self Actualization")
+            tasks_career = [
+                "Studying",
+                "Code 💻",
+            ]
+            st.write("It is not what an aspire to beome but the conciousness of nothingess "
+                     "that keeps us going!")
+            career = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_career}
+
+        with st.container(border=True):
+            st.title("Lesiure")
+            tasks_Dopamine = [
+                "Hot tub 🛁",
+                "Swimming 🏊",
+                "Ice cream 🍦",
+                "Game",
+                "TV 📺",
+                "Read 📖",
+                "Write ✍️",
+                "Drive 🚗",
+                "Park 🏞️",
+            ]
+            dopamine = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_Dopamine}
+        with st.container(border=True):
+            tasks_faith = [
+                "Praying",
+                "Reading Quran",
+                "Supplication",
+            ]
+            faith = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_faith}
+        with ((st.container(border=True))):
+            tasks_health = [
+                "Clean 🧹",
+                "Cook 🍳",
+                "Protein🥩",
+                "Skin care💆",
+                "Exercise 🏋️",
+
+            ]
+            health = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_health}
+        with st.container(border=True):
+            tasks_connection = [
+                "Family",
+                "Friends 👨‍👩‍👧"
+            ]
+            connection = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_connection}
+
+        # --- Scores ---
+        all_tasks = {**career, **dopamine, **faith, **health, **connection}
+        score_daily = sum(all_tasks.values()) * POINTS_PER_TASK
+        score_daily = sum(all_tasks.values()) * POINTS_PER_TASK
+        st.write("### Daily productivity score:", score_daily)
+
+    with st.container(border=True):
+        if score_daily <= 100:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("** What activity involves less time and energy?** 🧘")
+            with c2:
+                st.write("**you dont have to leave  your comfort zone  "
+                         " Zone for this one**")
+            with c3:
+                st.write("**Pair first task with music**")
+        elif score_daily <= 200:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("**Maybe go out?**")
+            with c2:
+                st.write("**Do it for the sake of doing it?**")
+            with c3:
+                st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
+        elif score_daily <= 300:
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.write("**What do you think is the main driver for "
+                         "high level productivity?**")
+            with c2:
+                st.write("**Sometimes I wonder, if "
+                         "I set expectation too high to fail**")
+            with c3:
+                st.write("**Its not until you fall that "
+                         "you fly!**")
+
+        elif score_daily <= 400:
+            mood = "Peace"
+
+        st.divider()
+        st.title("**for i in tasks"
+             " correlate m in mood**")
+
+
 

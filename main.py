@@ -5,16 +5,16 @@ from streamlit import columns
 
 with st.sidebar:
     st.title("**Metacognition**")
-    page = st.radio("How is your energy?",
+    page = st.radio("Menu?",
                     [
                         "Home",
-                        "Productivity",
+                        "Decision Model",
                         "Trivial Decision",
                         "Travel",
                         "Thinking process",
                         "Outcomes",
                         "CB Therapy",
-                        "DB Therapy"
+                        "DB therapy"
 
                     ])
 
@@ -48,13 +48,31 @@ if page == "Home":
 
 
 
-if page == "Productivity":
+if page == "Decision Model":
     with st.container(border=True):
-        st.write("Try it! sometimes it is easy "
-                 "to follow a task "
-                 "if it is already decided "
-                 "thus reducing cognitive load")
-        # --- Config ---
+        st.title("Decision Making Checklist (Game Theory Based)")
+
+        questions = [
+            "What outcome am I trying to maximize, and is it clearly defined?",
+            "What do I assume other people involved will do in response to my choice?",
+            "What happens to my outcome if others act strategically against me?",
+            "Do I have a dominant strategy that works best regardless of others’ actions?",
+            "Is this situation competitive (zero-sum) or can both sides benefit (non-zero-sum)?",
+            "Is there a way to cooperate that improves outcomes for everyone involved?",
+            "What information do I have that others don’t, and what might I be missing?",
+            "How would my decision change if I knew the other person’s decision in advance?",
+            "Am I considering only immediate payoff, or also long-term strategic consequences?",
+            "If everyone acted rationally in this situation, what equilibrium outcome would emerge?"
+        ]
+
+        responses = {}
+
+        for i, q in enumerate(questions):
+            responses[i] = st.text_input(f"Q{i + 1}: {q}", key=f"q{i}")
+
+        if st.button("Submit"):
+            st.write("### Your Responses")
+            st.json(responses)
 
 
 
@@ -104,6 +122,7 @@ if page == "Trivial Decision":
 
     if st.button("Get suggestion"):
         choice = random.choice(answers)
+        st.write(choice)
 
 if page == "Travel":
     with st.container(border=True):
@@ -120,54 +139,13 @@ if page == "Travel":
             st.checkbox(i)
 
 
-#-------------------------------
-
-
-if page == "Therapy":
-    st.title("Distress tolerance therapy")
-    with tab_dbt:
-        with st.container(border=True):
-            st.header("step one: Relax")  # REST(R for relax, E for evaluate, S for select action, T for take actions
-
-    thought_1 = st.text_input("What is first thought??", key="t1")
-    st.text_input("what is past experience with this thought?", key="p1")
-    thought_2 = st.text_input("What is second thought??")
-    thought_3 = st.text_input("What is 3rd thought??")
-    thought_4 = st.text_input("What is fourth thought??")
-
-    # Display chain
-    st.write(
-        f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
-    with st.container(border=True):
-        st.header("Step Two:Evaluate")
-        st.write("")
-
-
-
-
-        # evaluate thinking error
-        distortions = [
-            "Black-and-white thinking",
-            "It should go my way",
-            "IS this a pattern?",
-            "Catastrophizing",
-            "Discounting the positive",
-            "Emotional reasoning",
-            "Fortune telling",
-            "predicting someone else's nice behaviour",
-            "Entitelment",
-            "False sense of helplessness- A paradox",
-            "False sense of responsibility"
-        ]
-
-
 
 #----------------------------
 
 
 if page == "Thinking process":
-    tab_Emotional_Awarness, tab_Motives, tab_intentions,  tab_actions, = st.tabs(
-        ["Emotions", "Motives", "Intentions", "Actions"])
+    tab_Emotional_Awarness, tab_Motives, tab_intentions,  tab_thinkingError, = st.tabs(
+        ["Emotions", "Motives", "Intentions", "Thinking Err"])
 
     # find out your emotions-----------------
     with tab_Emotional_Awarness:
@@ -212,7 +190,7 @@ if page == "Thinking process":
     with tab_intentions:
         st.write("Loading")
 
-    with tab_actions:
+    with tab_thinkingError:
         st.markdown("Refer to productivity")
 
 
@@ -221,7 +199,32 @@ if page == "Thinking process":
 
 if page == "Outcomes":
     with st.container(border=True):
-        st.write("may use experience vector")
+        tab_dbt, tab_exp = st.tabs(["Axitivities", "Experience"])
+        with tab_dbt:
+            st.write("Write down your activities for a week")
+
+            activities = st.text_input("What are you doing?")
+
+            if activities:
+                st.json({"activity": activities})
+
+        with tab_exp:
+            with st.container(border=True):
+                psi1 = st.text_input("Name this experience('What it is)")
+                intensity = st.slider("How intense is this experience?", 1, 5, key="intensity")
+                duration = st.multiselect("Duration", ["1 day", "1 hr", "1 week", "1 month"])
+                valence_val = [
+                    "positive(Dopamine, seorotnin, adrenaline,)",
+                    "negative(fear, anxiety, depression,)",
+                ]
+                valence = st.selectbox("How does this experience make you feel?", valence_val)
+                st.write(f"Name: {psi1}, Intensity: {intensity}, Duration: {duration}, Valence: {valence}")
+            with st.container(border=True):
+                psit2 = st.text_input("what it could be?")
+                intensity2 = st.slider("How intense is this experience?", 1, 5, key="intensity2")
+                duration2 = st.multiselect("Duration", ["1 day", "1 hr", "1 week", "1 month"], key="duration2")
+                valence2 = st.selectbox("How does this experience make you feel?", valence_val, key="valence2")
+                st.write(f"Name: {psit2}, Intensity: {intensity2}, Duration: {duration2}, Valence: {valence2}")
 
 if page == "CB Therapy":
     tab_goal, tab_values, tab_activities = st.tabs(["Goals", "Values", "Activities"])
@@ -281,7 +284,7 @@ if page == "CB Therapy":
                 "Studying",
                 "Code 💻",
             ]
-            st.write("It is not what an aspire to beome but the conciousness of nothingess "
+            st.write("It is not what an aspire to become but the conciousness of nothingess "
                      "that keeps us going!")
             career = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_career}
 
@@ -326,45 +329,111 @@ if page == "CB Therapy":
         # --- Scores ---
         all_tasks = {**career, **dopamine, **faith, **health, **connection}
         score_daily = sum(all_tasks.values()) * POINTS_PER_TASK
-        score_daily = sum(all_tasks.values()) * POINTS_PER_TASK
         st.write("### Daily productivity score:", score_daily)
 
-    with st.container(border=True):
-        if score_daily <= 100:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("** What activity involves less time and energy?** 🧘")
-            with c2:
-                st.write("**you dont have to leave  your comfort zone  "
+        with st.container(border=True):
+            if score_daily <= 100:
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.write("** What activity involves less time and energy?** 🧘")
+                with c2:
+                    st.write("**you dont have to leave  your comfort zone  "
                          " Zone for this one**")
-            with c3:
-                st.write("**Pair first task with music**")
-        elif score_daily <= 200:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("**Maybe go out?**")
-            with c2:
-                st.write("**Do it for the sake of doing it?**")
-            with c3:
-                st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
-        elif score_daily <= 300:
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("**What do you think is the main driver for "
-                         "high level productivity?**")
-            with c2:
-                st.write("**Sometimes I wonder, if "
-                         "I set expectation too high to fail**")
-            with c3:
-                st.write("**Its not until you fall that "
-                         "you fly!**")
+                with c3:
+                    st.write("**Pair first task with music**")
+            elif score_daily <= 200:
+                    c1, c2, c3 = st.columns(3)
+                    with c1:
+                        st.write("**Maybe go out?**")
+                    with c2:
+                        st.write("**Do it for the sake of doing it?**")
+                    with c3:
+                        st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
+            elif score_daily <= 300:
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.write("**What do you think is the main driver for "
+                 "high level productivity?**")
+                with c2:
+                    st.write("**Sometimes I wonder, if "
+                 "I set expectation too high to fail**")
+                with c3:
+                    st.write("**Its not until you fall that "
+                 "you fly!**")
 
-        elif score_daily <= 400:
-            mood = "Peace"
+            elif score_daily <= 400:
+                mood = "Peace"
 
-        st.divider()
-        st.title("**for i in tasks"
-             " correlate m in mood**")
+            st.divider()
+            st.title("**for i in tasks"
+         " correlate m in mood**")
+#-----------------------
+if page == "DB therapy":
+    st.title("Distress tolerance therapy")
+    st.header("step one: Relax")
+
+
+    thought_1=  st.text_input("What is first thought??", key="t1")
+    st.text_input("what is past experience with this thought?", key="p1")
+    st.radio("Is this system 1 thinking?", ["System 1 (fast, automatic)", "System 2 (slow, deliberate)"])
+    thought_2 =st.text_input("What is second thought??")
+    st.text_input("what is past experience with 2nd thought?", key="p2")
+    thought_3 = st.text_input("What is 3rd thought??")
+    st.text_input("what is past experience with 3rd thought?" , key ="p3")
+    thought_4 =st.text_input("What is fourth thought??")
+    st.text_input("what is past experience with 4th thought?", key ="p4")
+
+# Display chain
+    st.write(
+    f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
+
+    st.header("Step Two:Evaluate")
+
+
+    class Evaluate:
+        def __init__(self, options, key):
+            self.selected = st.multiselect(
+                "What is your Reasoning process?",
+                options,
+                key=key
+            )
+
+
+    distortions = [
+        "Black-and-white thinking",
+        "It should go my way",
+        "IS this a pattern?" ,
+        "Catastrophizing",
+        "Discounting the positive",
+        "Emotional reasoning",
+        "Fortune telling",
+        "predicting someone else's nice behaviour",
+        "Entitelment",
+        "False sense of helplessness- A paradox",
+        "False sense of responsibility"
+    ]
+
+    errors = Evaluate(distortions, key="errors")
+
+    if "Emotional reasoning" in errors.selected:
+        st.write("Distinguish facts from emotions")
+        st.write("Try something productive if intensity is high")
+    elif "predicting someone else's nice behaviour" in errors.selected:
+        st.write("You have met worse")
+    elif "Catastropihizing" in errors.selected:
+        st.write("You have been through worse")
+    elif "Entitelment" in errors.selected:
+        st.write("then to him is your return")
+    elif "False sense of helplessness" in errors.selected:
+        st.write("Seek Guidance through Sbr and Salah!")
+    elif "Discounting the positive" in errors.selected:
+        st.write("Maybe the Context is wrong")
+    elif "Shoulding" in errors.selected:
+        st.write("Surrender versus control")
+
+
+
+
 
 
 

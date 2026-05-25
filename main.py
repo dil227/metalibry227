@@ -245,33 +245,113 @@ if page == "Thinking loop":
 
 if page == "Outcomes":
     with st.container(border=True):
-        tab_dbt, tab_exp = st.tabs(["Axitivities", "Experience"])
-        with tab_dbt:
-            st.write("Write down your activities for a week")
+        # DATA
+        intensity = [
+            "Non-stimulating",
+            "Mild stimulating",
+            "Very intense",
+            "Overwhelming",
+        ]
 
-            activities = st.text_input("What are you doing?")
+        emotional_valence_optns = [
+            "Sad",
+            "Happy",
+            "Great",
+            "Awful",
+            "Peaceful",
+            "Neutral"
+        ]
 
-            if activities:
-                st.json({"activity": activities})
+        expectation_optns = [
+            "Make a meaningful connection",
+            "Make good memories",
+            "Time pass"
+        ]
 
-        with tab_exp:
-            with st.container(border=True):
-                psi1 = st.text_input("Name this experience('What it is)")
-                intensity = st.slider("How intense is this experience?", 1, 5, key="intensity")
-                duration = st.multiselect("Duration", ["1 day", "1 hr", "1 week", "1 month"])
-                valence_val = [
-                    "Dopamine", " serotonin",
-                    "adrenaline",
-                    "fear", " anxiety", "depression,"
-                ]
-                valence = st.selectbox("How does this experience make you feel?", valence_val)
-                st.write(f"Name: {psi1}, Intensity: {intensity}, Duration: {duration}, Valence: {valence}")
-            with st.container(border=True):
-                psit2 = st.text_input("what it could be?")
-                intensity2 = st.slider("How intense is this experience?", 1, 5, key="intensity2")
-                duration2 = st.multiselect("Duration", ["1 day", "1 hr", "1 week", "1 month"], key="duration2")
-                valence2 = st.selectbox("How does this experience make you feel?", valence_val, key="valence2")
-                st.write(f"Name: {psit2}, Intensity: {intensity2}, Duration: {duration2}, Valence: {valence2}")
+        context_options = [
+            "I dont want to interact with anyone",
+            "I want to interact with someone"
+        ]
+
+        outcomes_optns = ["100 % allighnment with expectation",
+                          "50% allignment",
+                          "25%",
+                          "15%",
+                          "<5%",
+                          "completely opposite to expectation"
+
+                          ]
+
+
+        class DeltaExperience:
+
+            def intensity(self, options, key):
+                return st.multiselect(
+                    "What is the intensity?",
+                    options,
+                    key=key
+                )
+
+            def emotional_valence(self, options, key):
+                return st.multiselect(
+                    "How is your mood?",
+                    options,
+                    key=key
+                )
+
+            def expectation(self, options, key):
+                return st.multiselect(
+                    "What are you expecting from this experience?",
+                    options,
+                    key=key
+                )
+
+            def context(self, options, key):
+                return st.multiselect(
+                    "What is the current interpretation of past self?",
+                    options,
+                    key=key
+                )
+
+
+        # OBJECT
+        experience_1 = DeltaExperience()
+
+        selected_intensity = experience_1.intensity(intensity, key="intennsity")
+        selected_emotion = experience_1.emotional_valence(emotional_valence_optns, key="emotion_1")
+        selected_expectation = experience_1.expectation(expectation_optns, key="expectation_1")
+        selected_context = experience_1.context(context_options, key="context_1")
+
+        exp_name = st.text_input("Name this experience", key="name_1")
+
+        E1 = st.write(f"""
+        ### Your {exp_name} Experience Summary 
+        Intensity: {selected_intensity} , Mood: {selected_emotion} , Expectation: {selected_expectation},
+
+        Context: {selected_context}
+        """)
+
+        # SECOND EXPERIENCE
+        experience_2 = DeltaExperience()
+
+        intensity_2nd = experience_2.intensity(intensity, key="intensity_2")
+        emotion_2nd = experience_2.emotional_valence(emotional_valence_optns, key="emotion_2")
+        expectation_2nd = experience_2.expectation(expectation_optns, key="expectation_2")
+        context_2nd = experience_2.context(context_options, key="context_2")
+
+        exp_name_2nd = st.text_input("Name this experience", key="name_2")
+
+        E2 = st.write(f"""
+        ### Your {exp_name_2nd} Experience Summary
+
+        Intensity: {intensity_2nd}
+
+        Mood: {emotion_2nd}
+
+        Expectation: {expectation_2nd}
+
+        Context: {context_2nd}
+        """)
 
 if page == "CB Therapy":
     st.caption("Cognitive Behavioural therapy")
@@ -498,7 +578,7 @@ if page == "Human Interaction guide":
                             st.text_input("Why do you desire this?")
 
 
-
+#non-cute and undesirable
                 elif type == "Undesirable":
                     encounter = st.radio("Is more than one encounter probable?", binary_ans, index=None)
                     if encounter == "yes":

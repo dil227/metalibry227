@@ -9,12 +9,13 @@ with st.sidebar:
                     [
                         "Home",
                         "Decision Model",
-                        "Trivial Decision",
                         "Travel",
-                        "Thinking process",
+                        "Thinking loop",
                         "Outcomes",
                         "CB Therapy",
-                        "DB therapy"
+                        "DB therapy",
+                        "Human Interaction guide"
+
 
                     ])
 
@@ -27,7 +28,9 @@ if page == "Home":
         st.write("Help tips to get the most from this project")
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.write("**Productivity: Boost your productivity**")
+            st.write("**Human interaction guide: helps you decide "
+                     "how to deal with people based on "
+                     "how you see them**")
 
         with c2:
             st.write("**Trivial Decisions: Leaving it to the chance to decide**")
@@ -50,7 +53,7 @@ if page == "Home":
 
 if page == "Decision Model":
     with st.container(border=True):
-        st.title("Decision Making Checklist (Game Theory Based)")
+        st.title("Decision Making Checklist (For long-term decision")
 
         questions = [
             "What outcome am I trying to maximize, and is it clearly defined?",
@@ -73,10 +76,8 @@ if page == "Decision Model":
         if st.button("Submit"):
             st.write("### Your Responses")
             st.json(responses)
+    st.divider()
 
-
-
-if page == "Trivial Decision":
     person = st.number_input("How many total variables?",
                              min_value= 1,
                              max_value=15,
@@ -143,12 +144,11 @@ if page == "Travel":
 #----------------------------
 
 
-if page == "Thinking process":
-    tab_Emotional_Awarness, tab_Motives, tab_intentions,  tab_thinkingError, = st.tabs(
-        ["Emotions", "Motives", "Intentions", "Thinking Err"])
+if page == "Thinking loop":
+    tab_MoodMotivesChoices,  tab_thinkingError, = st.tabs(["Mood Motives choices","Thinking Err"])
 
     # find out your emotions-----------------
-    with tab_Emotional_Awarness:
+    with tab_MoodMotivesChoices:
         st.header("Emotional Evaluation?")
 
         Mood_options = [
@@ -164,21 +164,21 @@ if page == "Thinking process":
                           "I dont know",
                           ]
         st.multiselect("what happened?", Prceding_evnts)
-        post_event = ["",
+        post_event = ["Prayer",
                       "Patience",
                       "Perseverance",
                       "Assesrtive",
                       "Whatever Clamity befalls you",
-                      "Honestly",
+                      "Honesty",
                       "Gratitude",
                       "Generous",
                       "What is the point?"]
 
-    with tab_Motives:
-        class Motivector:
+    st.container(border=True)
+    class Motivector:
             def __init__(self, options):
                 self.selected = st.multiselect("What are your motives/Beliefs?", options)
-        motives = [
+    motives = [
             "Gain something",
             "change outcomes",
             "Change myself",
@@ -186,12 +186,58 @@ if page == "Thinking process":
             "Least_time Principle",
             "Pleasure Principle"
             ]
-        motives_2 = Motivector(motives)
-    with tab_intentions:
-        st.write("Loading")
+    motives_2 = Motivector(motives)
+
+    choices = [
+            "stay in Comfort zone",
+            "Get rid of boredom",
+        "Gain some relief",
+            "Gain dopamine"
+        ]
+    st.multiselect("what are your intentions?", choices)
+
 
     with tab_thinkingError:
-        st.markdown("Refer to productivity")
+        class Evaluate:
+            def __init__(self, options, key):
+                self.selected = st.multiselect(
+                    "What is your Reasoning process?",
+                    options,
+                    key=key
+                )
+
+
+        distortions = [
+            "Black-and-white thinking",
+            "It should go my way",
+            "IS this a pattern?",
+            "Catastrophizing",
+            "Discounting the positive",
+            "Emotional reasoning",
+            "Fortune telling",
+            "predicting someone else's nice behaviour",
+            "Entitelment",
+            "False sense of helplessness- A paradox",
+            "False sense of responsibility"
+        ]
+
+        errors = Evaluate(distortions, key="errors")
+
+        if "Emotional reasoning" in errors.selected:
+            st.write("Distinguish facts from emotions")
+            st.write("Try something productive if intensity is high")
+        elif "predicting someone else's nice behaviour" in errors.selected:
+            st.write("You have met worse")
+        elif "Catastropihizing" in errors.selected:
+            st.write("You have been through worse")
+        elif "Entitelment" in errors.selected:
+            st.write("then to him is your return")
+        elif "False sense of helplessness" in errors.selected:
+            st.write("Seek Guidance through Sbr and Salah!")
+        elif "Discounting the positive" in errors.selected:
+            st.write("Maybe the Context is wrong")
+        elif "Shoulding" in errors.selected:
+            st.write("Surrender versus control")
 
 
 #----------------------------
@@ -214,8 +260,9 @@ if page == "Outcomes":
                 intensity = st.slider("How intense is this experience?", 1, 5, key="intensity")
                 duration = st.multiselect("Duration", ["1 day", "1 hr", "1 week", "1 month"])
                 valence_val = [
-                    "positive(Dopamine, seorotnin, adrenaline,)",
-                    "negative(fear, anxiety, depression,)",
+                    "Dopamine", " serotonin",
+                    "adrenaline",
+                    "fear", " anxiety", "depression,"
                 ]
                 valence = st.selectbox("How does this experience make you feel?", valence_val)
                 st.write(f"Name: {psi1}, Intensity: {intensity}, Duration: {duration}, Valence: {valence}")
@@ -227,16 +274,26 @@ if page == "Outcomes":
                 st.write(f"Name: {psit2}, Intensity: {intensity2}, Duration: {duration2}, Valence: {valence2}")
 
 if page == "CB Therapy":
+    st.caption("Cognitive Behavioural therapy")
     tab_goal, tab_values, tab_activities = st.tabs(["Goals", "Values", "Activities"])
 
     with tab_goal:
         with st.container(border=True):
             st.header("Step 1: Make a goal")
             st.write(" A goal can be for a day,"
-                     " a week,"
-                     " a month,"
-                     " a year,"
+                     " A week,"
+                     " A month,"
+                     " A year,"
                      " A decade")
+            duration =["A day",
+                       "A week",
+                       "A month",
+                       "6 months",
+                       "A year",
+                       ]
+            st.multiselect("what is the duration of experiment", duration)
+            st.text_input("What domain you want to work on??")
+
 
     with tab_values:
         with st.container(border=True):
@@ -247,33 +304,10 @@ if page == "CB Therapy":
             st.write("2. Group related activities")
             st.write("3. Identify the reasons you did each activity")
 
-        with st.container(border=True):
-            st.write("Most of your values belong to  FOLLOWING  classes:")
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write("**Physical needs**")
-            with c2:
-                st.write("**Faith**")
-            with c3:
-                st.write("**BELONGING**")
+            st.checkbox("Most of your values belong to  FOLLOWING  classes:")
 
-            c1, c2 = st.columns(2)
-            with c1:
-                st.write("**Relationship**")
-            with c2:
-                st.write("**Career**")
     with tab_activities:
-        st.markdown("Most efficient move is to start with action")
-        st.write("Identify what is important to you right now")
-        # domains = spirtual, relationship, career, physical
-        st.write("Based on the same Values, "
-                 "can you identify five life-giving "
-                 "activity you can do "
-                 "right now?")
-        st.write("Make a list based on difficulty level")
-        st.write("you can pair it with your most favorite "
-                 "activities like music because "
-                 "they have spill_over effects")
+
 
         POINTS_PER_TASK = 25
         PRAYER_BONUS = 25
@@ -289,7 +323,7 @@ if page == "CB Therapy":
             career = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_career}
 
         with st.container(border=True):
-            st.title("Lesiure")
+            st.title("Leisure")
             tasks_Dopamine = [
                 "Hot tub 🛁",
                 "Swimming 🏊",
@@ -375,7 +409,6 @@ if page == "DB therapy":
 
     thought_1=  st.text_input("What is first thought??", key="t1")
     st.text_input("what is past experience with this thought?", key="p1")
-    st.radio("Is this system 1 thinking?", ["System 1 (fast, automatic)", "System 2 (slow, deliberate)"])
     thought_2 =st.text_input("What is second thought??")
     st.text_input("what is past experience with 2nd thought?", key="p2")
     thought_3 = st.text_input("What is 3rd thought??")
@@ -388,48 +421,99 @@ if page == "DB therapy":
     f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
 
     st.header("Step Two:Evaluate")
+    st.text_input("What emotions are stronger?")
+
+    st.header("Step 3: Select Actions")
+    wanting = st.text_input("What do you want to do?")
+    can_do= st.text_input("What you can do?")
 
 
-    class Evaluate:
-        def __init__(self, options, key):
-            self.selected = st.multiselect(
-                "What is your Reasoning process?",
-                options,
-                key=key
-            )
+    st.header("Step 4: Take Actions")
 
 
-    distortions = [
-        "Black-and-white thinking",
-        "It should go my way",
-        "IS this a pattern?" ,
-        "Catastrophizing",
-        "Discounting the positive",
-        "Emotional reasoning",
-        "Fortune telling",
-        "predicting someone else's nice behaviour",
-        "Entitelment",
-        "False sense of helplessness- A paradox",
-        "False sense of responsibility"
-    ]
 
-    errors = Evaluate(distortions, key="errors")
+if page == "Human Interaction guide":
+    with st.container(border=True):
+        binary_ans = ["yes",
+                      "No"]
+        Ess = ["Hawk",
+               "Dove",
+               "Retaliator",
+               "Prober-Retaliator"]
+        cutness = st.radio("Are they cute?", binary_ans, index=None)
+        if cutness == "yes":
+            smartness = st.radio("Are they smart?", binary_ans, index=None)
+            if smartness == "yes":
+                respect = st.radio("Are they respectful?", binary_ans, index=None)
+                if respect == "yes":
+                    care = st.radio("Are they caring?", binary_ans, index=None)
+                    if care == "yes":
+                        wealth = st.radio("Are they generous?", binary_ans, index=None)
+                        if wealth == "yes":
+                            passion_w = st.radio("Are they passionate?", binary_ans, index=None)
+                            if passion_w == "yes":
+                                genuine = st.radio("Are they genuine?", binary_ans, index=None)
+                                if genuine == "yes":
+                                    st.write("Rare?")
+                                elif genuine == "No":
+                                    st.write("Just ###F")
 
-    if "Emotional reasoning" in errors.selected:
-        st.write("Distinguish facts from emotions")
-        st.write("Try something productive if intensity is high")
-    elif "predicting someone else's nice behaviour" in errors.selected:
-        st.write("You have met worse")
-    elif "Catastropihizing" in errors.selected:
-        st.write("You have been through worse")
-    elif "Entitelment" in errors.selected:
-        st.write("then to him is your return")
-    elif "False sense of helplessness" in errors.selected:
-        st.write("Seek Guidance through Sbr and Salah!")
-    elif "Discounting the positive" in errors.selected:
-        st.write("Maybe the Context is wrong")
-    elif "Shoulding" in errors.selected:
-        st.write("Surrender versus control")
+                            elif passion_w == "No":
+                                nonpass_genuine = st.radio("Are they genuine?", binary_ans, index=None)
+                                if nonpass_genuine == "yes":
+                                    st.write("5%??")
+                                elif nonpass_genuine == "No":
+                                    st.write("Non-passion, non-genuine, wealthy,smart, respectful, caring and cute! "
+                                             "You know what is the first step!"
+                                             "Infatuation")
+
+                        elif wealth == "No":
+                            passion_p = st.radio("Are they passionate?", binary_ans, index=None)
+                            if passion_p == "yes":
+                                st.write("You could find out more")
+                            elif passion_p == "No":
+                                "Just ###F"
+
+
+                    elif care == "No":
+                        st.write("HMMM!Need more information!")
+                elif respect == "No":
+                    jerk = st.radio("Are they an asshole?", binary_ans, index=None)
+            elif smartness == "No":
+                st.write("Just ###F")
+
+        # N non-cute connection
+        elif cutness == "No":
+            connection = st.radio("Does it has to be a connection?", binary_ans, index=None)
+            st.write("A connection is a relationship that is established between two people.")
+            if connection == "yes":
+                type = st.radio("What type of connection is this?", ["Desirable", "Undesirable"], index=None)
+                if type == "Desirable":
+                    lucky = st.radio("Non-cute,desirable", binary_ans, index=None)
+                    if lucky == "yes":
+                        desperation = st.radio("Are you desperate?", binary_ans, index=None)
+                        if desperation == "yes":
+                            st.write("Why are you desperate?")
+                        elif desperation == "No":
+                            st.text_input("Why do you desire this?")
+
+
+
+                elif type == "Undesirable":
+                    encounter = st.radio("Is more than one encounter probable?", binary_ans, index=None)
+                    if encounter == "yes":
+                        chosenEss = st.radio("choose Evolutionary stable strategy", Ess, index=None)
+                        if chosenEss == "Hawk":
+                            st.write("A Hawk escalates conflict immediately.")
+                        elif chosenEss == "Dove":
+                            st.write("A Dove avoids serious conflict.")
+                        elif chosenEss == "Retaliator":
+                            st.write("A Retaliator behaves peacefully at first, but fights back if attacked.")
+                        elif chosenEss == "Prober-Retaliator":
+                            st.write("Occasionally “tests” opponents with aggression")
+                    elif encounter == "No":
+                        st.write("Then what are you worried about? "
+                                 "how many filters do you need to wear?")
 
 
 

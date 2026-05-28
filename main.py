@@ -2,7 +2,8 @@ import streamlit as st
 import random
 
 from streamlit import columns
-
+#data
+binary_ans = ["yes","No"]
 with st.sidebar:
     st.title("**Metacognition**")
     page = st.radio("Menu?",
@@ -265,7 +266,8 @@ if page == "Outcomes":
         expectation_optns = [
             "Make a meaningful connection",
             "Make good memories",
-            "Time pass"
+            "Time pass",
+            "Change perception"
         ]
 
         context_options = [
@@ -312,12 +314,16 @@ if page == "Outcomes":
                     options,
                     key=key
                 )
+            def perception(self,options):
+                return st.radio("Did perception change?", binary_ans)
 
 
-        # OBJECT
+
+
+        # creating OBJECT
         experience_1 = DeltaExperience()
-
-        selected_intensity = experience_1.intensity(intensity, key="intennsity")
+# calling methods on the object: objectname.methodname(arg1, arg2, arg3, key="key")
+        selected_intensity = experience_1.intensity(intensity, key="intensity")
         selected_emotion = experience_1.emotional_valence(emotional_valence_optns, key="emotion_1")
         selected_expectation = experience_1.expectation(expectation_optns, key="expectation_1")
         selected_context = experience_1.context(context_options, key="context_1")
@@ -336,7 +342,7 @@ if page == "Outcomes":
 
         intensity_2nd = experience_2.intensity(intensity, key="intensity_2")
         emotion_2nd = experience_2.emotional_valence(emotional_valence_optns, key="emotion_2")
-        expectation_2nd = experience_2.expectation(expectation_optns, key="expectation_2")
+        perception_delta = experience_2.perception(binary_ans)
         context_2nd = experience_2.context(context_options, key="context_2")
 
         exp_name_2nd = st.text_input("Name this experience", key="name_2")
@@ -348,7 +354,7 @@ if page == "Outcomes":
 
         Mood: {emotion_2nd}
 
-        Expectation: {expectation_2nd}
+        perception: {perception_delta}
 
         Context: {context_2nd}
         """)
@@ -513,89 +519,104 @@ if page == "DB therapy":
 
 
 if page == "Human Interaction guide":
-    with st.container(border=True):
-        binary_ans = ["yes",
-                      "No"]
+    topics = ["Technology",
+              "Work",
+              "Politics"]
+    with (st.container(border=True)):
         Ess = ["Hawk",
-               "Dove",
-               "Retaliator",
-               "Prober-Retaliator"]
-        cutness = st.radio("Are they cute?", binary_ans, index=None)
-        if cutness == "yes":
-            smartness = st.radio("Are they smart?", binary_ans, index=None)
-            if smartness == "yes":
-                respect = st.radio("Are they respectful?", binary_ans, index=None)
-                if respect == "yes":
-                    care = st.radio("Are they caring?", binary_ans, index=None)
-                    if care == "yes":
-                        wealth = st.radio("Are they generous?", binary_ans, index=None)
-                        if wealth == "yes":
-                            passion_w = st.radio("Are they passionate?", binary_ans, index=None)
-                            if passion_w == "yes":
-                                genuine = st.radio("Are they genuine?", binary_ans, index=None)
-                                if genuine == "yes":
-                                    st.write("Rare?")
-                                elif genuine == "No":
-                                    st.write("Just ###F")
+               "Dove", ]
+        cutness_ess = [
+            "Retaliator",
+            "Prober-Retaliator"]
 
-                            elif passion_w == "No":
-                                nonpass_genuine = st.radio("Are they genuine?", binary_ans, index=None)
-                                if nonpass_genuine == "yes":
-                                    st.write("5%??")
-                                elif nonpass_genuine == "No":
-                                    st.write("Non-passion, non-genuine, wealthy,smart, respectful, caring and cute! "
-                                             "You know what is the first step!"
-                                             "Infatuation")
+        connection = st.radio("Does it has to be a connection?", binary_ans, index=None)
+        st.write("A connection is a relationship that is established between two people.")
+        if connection == "yes":
+            type = st.radio("What type of connection is this?", ["Desirable", "Undesirable"], index=None)
+            if type == "Desirable":
+                cutness = st.radio("Are they cute?", binary_ans, index=None)
+                if cutness == "yes":
+                    smartness = st.radio("Are they smart?", binary_ans, index=None)
+                    if smartness == "yes":
+                        respect = st.radio("Are they respectful?", binary_ans, index=None)
+                        if respect == "yes":
+                            care = st.radio("Are they caring?", binary_ans, index=None)
+                            if care == "yes":
+                                wealth = st.radio("Are they generous?", binary_ans, index=None)
+                                if wealth == "yes":
+                                    passion_w = st.radio("Are they passionate?", binary_ans, index=None)
+                                    if passion_w == "yes":
+                                        genuine = st.radio("Are they genuine?", binary_ans, index=None)
+                                        if genuine == "yes":
+                                            st.write("Rare?")
+                                        elif genuine == "No":
+                                            st.write("Just talk and get more info")
 
-                        elif wealth == "No":
-                            passion_p = st.radio("Are they passionate?", binary_ans, index=None)
-                            if passion_p == "yes":
-                                st.write("You could find out more")
-                            elif passion_p == "No":
-                                "Just ###F"
+                                    elif passion_w == "No":
+                                        passion_info = st.radio("Not information?", binary_ans)
 
+                                        if passion_info == "yes":
+                                            nonpass_genuine = st.radio("Are they genuine?", binary_ans, index=None)
+                                        if nonpass_genuine == "yes":
+                                            st.write("5%??")
+                                        elif nonpass_genuine == "No":
+                                            st.write(
+                                                "Non-passion, non-genuine, wealthy,smart, respectful, caring and cute! "
+                                                "You know what is the first step!"
+                                                "Infatuation")
 
-                    elif care == "No":
-                        st.write("HMMM!Need more information!")
-                elif respect == "No":
-                    jerk = st.radio("Are they an asshole?", binary_ans, index=None)
-            elif smartness == "No":
-                st.write("Just ###F")
+                                elif wealth == "No":
+                                    passion_p = st.radio("Are they passionate?", binary_ans, index=None)
+                                    if passion_p == "yes":
+                                        st.write("You could find out more")
+                                    elif passion_p == "No":
+                                        cuteEss = st.radio("choose Evolutionary stable strategy", cuteness_Ess,
+                                                           index=None)
+                                    elif cuteEss == "Retaliator":
+                                        st.write(
+                                            "A Retaliator behaves peacefully at first, but fights back if attacked.")
 
-        # N non-cute connection
-        elif cutness == "No":
-            connection = st.radio("Does it has to be a connection?", binary_ans, index=None)
-            st.write("A connection is a relationship that is established between two people.")
-            if connection == "yes":
-                type = st.radio("What type of connection is this?", ["Desirable", "Undesirable"], index=None)
-                if type == "Desirable":
-                    lucky = st.radio("Non-cute,desirable", binary_ans, index=None)
-                    if lucky == "yes":
-                        desperation = st.radio("Are you desperate?", binary_ans, index=None)
-                        if desperation == "yes":
-                            st.write("Why are you desperate?")
-                        elif desperation == "No":
-                            st.text_input("Why do you desire this?")
+                                    elif cuteEss == "Prober-Retaliator":
+                                        st.write("Occasionally “tests” opponents with aggression")
 
 
-#non-cute and undesirable
-                elif type == "Undesirable":
-                    encounter = st.radio("Is more than one encounter probable?", binary_ans, index=None)
-                    if encounter == "yes":
-                        chosenEss = st.radio("choose Evolutionary stable strategy", Ess, index=None)
-                        if chosenEss == "Hawk":
-                            st.write("A Hawk escalates conflict immediately.")
-                        elif chosenEss == "Dove":
-                            st.write("A Dove avoids serious conflict.")
-                        elif chosenEss == "Retaliator":
-                            st.write("A Retaliator behaves peacefully at first, but fights back if attacked.")
-                        elif chosenEss == "Prober-Retaliator":
-                            st.write("Occasionally “tests” opponents with aggression")
-                    elif encounter == "No":
-                        st.write("Then what are you worried about? "
-                                 "how many filters do you need to wear?")
+                            elif care == "No":
+                                st.write("HMMM!Need more information!")
+                        elif respect == "No":
+                            jerk = st.radio("Are they an asshole?", binary_ans, index=None)
+                    elif smartness == "No":
+                        st.write("Just ###F")
+
+                # N non-cute connection
+                elif cutness == "No":
+                    desperation = st.radio("Are you desperate?", binary_ans, index=None)
+                    if desperation == "yes":
+                        st.write("Why are you desperate?, Consider changing "
+                                 "your standards")
+                    elif desperation == "No":
+                        st.text_input("Why do you desire this?")
 
 
+            # non-cute and undesirable
+            elif type == "Undesirable":
+                encounter = st.radio("Is more than one encounter probable?", binary_ans, index=None)
+                if encounter == "yes":
+                    chosenEss = st.radio("choose Evolutionary stable strategy", Ess, index=None)
+                    if chosenEss == "Hawk":
+                        st.write("A Hawk escalates conflict immediately.")
+                        st.caption("Topics to discuss ")
+                        st.radio("Choose topics", topics, index=None)
+                    elif chosenEss == "Dove":
+                        st.write("A Dove avoids serious conflict.")
+                        st.caption("Recomended strategy: Silent treatment with frequent smiles")
+
+
+                elif encounter == "No":
+                    st.write("Then what are you worried about? "
+                             "how many filters do you need to wear?")
+
+        elif connection == "No":
+            st.radio("Maybe a connection?", binary_ans, index=None)
 
 
 

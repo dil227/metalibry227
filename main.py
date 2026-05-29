@@ -240,6 +240,63 @@ if page == "Thinking loop":
         elif "Shoulding" in errors.selected:
             st.write("Surrender versus control")
 
+        POINTS_PER_TASK = 1
+
+        st.header("Perception Profile")
+
+        # Attention
+        st.write("What do they notice repeatedly")
+        attention = ["Threats", "Opportunities", "Beauty", "Status", "Meaning", "Relationships"]
+        atntn_scr = {
+            t: st.checkbox(t, key=f"attention_{t}")
+            for t in attention
+        }
+
+        st.divider()
+
+        Interpretation = [
+            "Optimistic", "Pessimistic",
+            "Personal Blame", "External Blame",
+            "Logical", "Emotional",
+            "Concrete", "Abstract"
+        ]
+
+        st.write("How do they explain events?")
+
+        intprtn_scr = {
+            t: st.checkbox(t, key=f"interpretation_{t}")
+            for t in Interpretation
+        }
+
+        st.divider()
+        # Emotion
+        st.write("Dominant Affect?")
+        emotion = ["Calm", "Fearful", "Curious", "Defensive", "Hopeful", "Detached"]
+        emtn_scr = {
+            t: st.checkbox(t, key=f"emotion_{t}")
+            for t in emotion
+        }
+
+        st.divider()
+
+        # Behavior
+        st.write("Perception eventually appears as Actions")
+        behavior = ["Avoidance", "Exploration", "Control", "Connection", "Creativity", "Aggression"]
+        bhvr_scr = {
+            t: st.checkbox(t, key=f"behavior_{t}")
+            for t in behavior
+        }
+
+        # Calculate score
+        # Calculate score
+        score_daily = (
+                              sum(atntn_scr.values()) +
+                              sum(emtn_scr.values()) +
+                              sum(bhvr_scr.values())
+                      ) * POINTS_PER_TASK
+
+        st.write(f"Score: {score_daily}")
+
 
 #----------------------------
 
@@ -519,9 +576,15 @@ if page == "DB therapy":
 
 
 if page == "Human Interaction guide":
-    topics = ["Technology",
+    topics_undesirable_hawk= ["Technology/Innovation",
               "Work",
-              "Politics"]
+              "Politics",
+              "Sports",
+              "Current affairs"]
+    topics_undesraable_dove =[
+              "Experirence",
+                         "organizing",
+                         "Fashion"]
     with (st.container(border=True)):
         Ess = ["Hawk",
                "Dove", ]
@@ -572,12 +635,12 @@ if page == "Human Interaction guide":
                                     elif passion_p == "No":
                                         cuteEss = st.radio("choose Evolutionary stable strategy", cuteness_Ess,
                                                            index=None)
-                                    elif cuteEss == "Retaliator":
-                                        st.write(
+                                        if cuteEss == "Retaliator":
+                                            st.write(
                                             "A Retaliator behaves peacefully at first, but fights back if attacked.")
 
-                                    elif cuteEss == "Prober-Retaliator":
-                                        st.write("Occasionally “tests” opponents with aggression")
+                                        elif cuteEss == "Prober-Retaliator":
+                                            st.write("Occasionally “tests” opponents with aggression")
 
 
                             elif care == "No":
@@ -605,10 +668,13 @@ if page == "Human Interaction guide":
                     if chosenEss == "Hawk":
                         st.write("A Hawk escalates conflict immediately.")
                         st.caption("Topics to discuss ")
-                        st.radio("Choose topics", topics, index=None)
+                        st.radio("Choose topics", topics_undesirable_hawk, index=None)
                     elif chosenEss == "Dove":
                         st.write("A Dove avoids serious conflict.")
                         st.caption("Recomended strategy: Silent treatment with frequent smiles")
+                        st.caption("Topics to discuss ")
+                        st.radio("Choose topics", topics_undesirable_dove, index=None)
+
 
 
                 elif encounter == "No":

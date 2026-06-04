@@ -13,8 +13,6 @@ with st.sidebar:
                         "Travel",
                         "Thinking loop",
                         "Outcomes",
-                        "CB Therapy",
-                        "DB therapy",
                         "Human Interaction guide"
 
 
@@ -53,7 +51,8 @@ if page == "Home":
 
 
 if page == "Decision Model":
-    with st.container(border=True):
+    tab_longterm, tab_shortterm = st.tabs(["Long term", "Short term"])
+    with tab_longterm:
         st.title("Decision Making Checklist (For long-term decision")
 
         questions = [
@@ -79,26 +78,62 @@ if page == "Decision Model":
             st.json(responses)
     st.divider()
 
-    person = st.number_input("How many total variables?",
-                             min_value= 1,
-                             max_value=15,
-                             step=1)
 
-    options = []
 
-    for i in range(person):  # number of options you want
-        item = st.text_input(f"Option {i+1}")
-        options.append(item)
 
-    if st.button("Decide"):
-        if options:
-            st.success(random.choice(options))
-        else:
-            st.warning("Enter at least one option")
+    with tab_shortterm:
+        st.header("Decision Utility Tracker")
 
-    st.divider()
-    st.header("Random Suggestions")
-    answers = [
+        decision_name = st.text_input("Decision Name")
+        expected_utility = st.text_input("What do you expect from this decision?")
+
+        choice_1 = st.text_input("Choice 1")
+        choice_2 = st.text_input("Choice 2")
+        choice_3 = st.text_input("Choice 3")
+
+        final_choice = st.text_input("Final Choice")
+
+        utility_function = st.select_slider(
+            "How close are outcomes to expected utility?",
+            options=["Very far", "Far", "Neutral", "Close", "Very close"]
+        )
+
+        st.write(f"""
+        Decision Name: {decision_name}
+
+        Expected Utility: {expected_utility}
+
+        Choice 1: {choice_1}
+
+        Choice 2: {choice_2}
+
+        Choice 3: {choice_3}
+
+        Final Choice: {final_choice}
+
+        Utility Function: {utility_function}
+        """)
+
+
+        person = st.number_input("How many total variables?",
+                                 min_value=1,
+                                 max_value=15,
+                                 step=1)
+
+        options = []
+
+        for i in range(person):  # number of options you want
+            item = st.text_input(f"Option {i + 1}")
+            options.append(item)
+
+        if st.button("Decide"):
+            if options:
+                st.success(random.choice(options))
+            else:
+                st.warning("Enter at least one option")
+
+        st.header("Random Suggestions")
+        answers = [
             "You can see what they say",
             "If you are asking you probably have one option",
             "Is money a factor?",
@@ -122,9 +157,9 @@ if page == "Decision Model":
         "Go with option B"
     ]
 
-    if st.button("Get suggestion"):
-        choice = random.choice(answers)
-        st.write(choice)
+        if st.button("Get suggestion"):
+            choice = random.choice(answers)
+            st.write(choice)
 
 if page == "Travel":
     with st.container(border=True):
@@ -175,26 +210,28 @@ if page == "Thinking loop":
                       "Generous",
                       "What is the point?"]
 
-    st.container(border=True)
+
     class Motivector:
-            def __init__(self, options):
-                self.selected = st.multiselect("What are your motives/Beliefs?", options)
+        def __init__(self, options):
+            self.selected = st.multiselect("What are your motives/Beliefs?", options)
+
+
     motives = [
-            "Gain something",
-            "change outcomes",
-            "Change myself",
-            "Continue current trajectory",
-            "Least_time Principle",
-            "Pleasure Principle"
-            ]
+        "Gain something",
+        "change outcomes",
+        "Change myself",
+        "Continue current trajectory",
+        "Least_time Principle",
+        "Pleasure Principle"
+    ]
     motives_2 = Motivector(motives)
 
     choices = [
-            "stay in Comfort zone",
-            "Get rid of boredom",
+        "stay in Comfort zone",
+        "Get rid of boredom",
         "Gain some relief",
-            "Gain dopamine"
-        ]
+        "Gain dopamine"
+    ]
     st.multiselect("what are your intentions?", choices)
 
 
@@ -202,7 +239,7 @@ if page == "Thinking loop":
         class Evaluate:
             def __init__(self, options, key):
                 self.selected = st.multiselect(
-                    "What is your Reasoning process?",
+                    "What is  Reasoning process?",
                     options,
                     key=key
                 )
@@ -227,18 +264,19 @@ if page == "Thinking loop":
         if "Emotional reasoning" in errors.selected:
             st.write("Distinguish facts from emotions")
             st.write("Try something productive if intensity is high")
-        elif "predicting someone else's nice behaviour" in errors.selected:
-            st.write("You have met worse")
-        elif "Catastropihizing" in errors.selected:
-            st.write("You have been through worse")
-        elif "Entitelment" in errors.selected:
-            st.write("then to him is your return")
-        elif "False sense of helplessness" in errors.selected:
+        if "predicting someone else's nice behaviour" in errors.selected:
+            st.write("Read Surah Joseph")
+        if "Catastrophizing" in errors.selected:
+            st.write("You have been through worse"
+                     "Read Surah Joseph")
+        if "Entitelment" in errors.selected:
+            st.caption("then to Him is your return")
+        if "False sense of helplessness" in errors.selected:
             st.write("Seek Guidance through Sbr and Salah!")
-        elif "Discounting the positive" in errors.selected:
+        if "Discounting the positive" in errors.selected:
             st.write("Maybe the Context is wrong")
-        elif "Shoulding" in errors.selected:
-            st.write("Surrender versus control")
+        if"It should go my way" in errors.selected:
+            st.caption("Ultimately God will prevails")
 
         POINTS_PER_TASK = 1
 
@@ -296,6 +334,15 @@ if page == "Thinking loop":
                       ) * POINTS_PER_TASK
 
         st.write(f"Score: {score_daily}")
+        if score_daily <5:
+            st.write("Very narrow minded")
+        elif score_daily <10:
+            st.write("Narrow minded")
+        elif score_daily <15:
+            st.write("Broad Minded")
+        elif score_daily <20:
+            st.write("Liberal")
+
 
 
 #----------------------------
@@ -416,162 +463,6 @@ if page == "Outcomes":
         Context: {context_2nd}
         """)
 
-if page == "CB Therapy":
-    st.caption("Cognitive Behavioural therapy")
-    tab_goal, tab_values, tab_activities = st.tabs(["Goals", "Values", "Activities"])
-
-    with tab_goal:
-        with st.container(border=True):
-            st.header("Step 1: Make a goal")
-            st.write(" A goal can be for a day,"
-                     " A week,"
-                     " A month,"
-                     " A year,"
-                     " A decade")
-            duration =["A day",
-                       "A week",
-                       "A month",
-                       "6 months",
-                       "A year",
-                       ]
-            st.multiselect("what is the duration of experiment", duration)
-            st.text_input("What domain you want to work on??")
-
-
-    with tab_values:
-        with st.container(border=True):
-            st.header("Step 2: Identify your values")
-            st.write("What do you value most?"
-                 "**YOU CAN FIND OUT IN SIMPLE STEPS**")
-            st.write("1. write down your daily activities for a week")
-            st.write("2. Group related activities")
-            st.write("3. Identify the reasons you did each activity")
-
-            st.checkbox("Most of your values belong to  FOLLOWING  classes:")
-
-    with tab_activities:
-
-
-        POINTS_PER_TASK = 25
-        PRAYER_BONUS = 25
-        st.write("**Check everything you did today in each domain:**")
-        with st.container(border=True):
-            st.title("Self Actualization")
-            tasks_career = [
-                "Studying",
-                "Code 💻",
-            ]
-            st.write("It is not what an aspire to become but the conciousness of nothingess "
-                     "that keeps us going!")
-            career = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_career}
-
-        with st.container(border=True):
-            st.title("Leisure")
-            tasks_Dopamine = [
-                "Hot tub 🛁",
-                "Swimming 🏊",
-                "Ice cream 🍦",
-                "Game",
-                "TV 📺",
-                "Read 📖",
-                "Write ✍️",
-                "Drive 🚗",
-                "Park 🏞️",
-            ]
-            dopamine = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_Dopamine}
-        with st.container(border=True):
-            tasks_faith = [
-                "Praying",
-                "Reading Quran",
-                "Supplication",
-            ]
-            faith = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_faith}
-        with ((st.container(border=True))):
-            tasks_health = [
-                "Clean 🧹",
-                "Cook 🍳",
-                "Protein🥩",
-                "Skin care💆",
-                "Exercise 🏋️",
-
-            ]
-            health = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_health}
-        with st.container(border=True):
-            tasks_connection = [
-                "Family",
-                "Friends 👨‍👩‍👧"
-            ]
-            connection = {t: st.checkbox(t, key=f"task_{t}") for t in tasks_connection}
-
-        # --- Scores ---
-        all_tasks = {**career, **dopamine, **faith, **health, **connection}
-        score_daily = sum(all_tasks.values()) * POINTS_PER_TASK
-        st.write("### Daily productivity score:", score_daily)
-
-        with st.container(border=True):
-            if score_daily <= 100:
-                c1, c2, c3 = st.columns(3)
-                with c1:
-                    st.write("** What activity involves less time and energy?** 🧘")
-                with c2:
-                    st.write("**you dont have to leave  your comfort zone  "
-                         " Zone for this one**")
-                with c3:
-                    st.write("**Pair first task with music**")
-            elif score_daily <= 200:
-                    c1, c2, c3 = st.columns(3)
-                    with c1:
-                        st.write("**Maybe go out?**")
-                    with c2:
-                        st.write("**Do it for the sake of doing it?**")
-                    with c3:
-                        st.write("**Today's efforts(Serotonin) will bring tomorrow's results**")
-            elif score_daily <= 300:
-                c1, c2, c3 = st.columns(3)
-                with c1:
-                    st.write("**What do you think is the main driver for "
-                 "high level productivity?**")
-                with c2:
-                    st.write("**Sometimes I wonder, if "
-                 "I set expectation too high to fail**")
-                with c3:
-                    st.write("**Its not until you fall that "
-                 "you fly!**")
-
-            elif score_daily <= 400:
-                mood = "Peace"
-
-            st.divider()
-            st.title("**for i in tasks"
-         " correlate m in mood**")
-#-----------------------
-if page == "DB therapy":
-    st.title("Distress tolerance therapy")
-    st.header("step one: Relax")
-
-
-    thought_1=  st.text_input("What is first thought??", key="t1")
-    st.text_input("what is past experience with this thought?", key="p1")
-    thought_2 =st.text_input("What is second thought??")
-    st.text_input("what is past experience with 2nd thought?", key="p2")
-    thought_3 = st.text_input("What is 3rd thought??")
-    st.text_input("what is past experience with 3rd thought?" , key ="p3")
-    thought_4 =st.text_input("What is fourth thought??")
-    st.text_input("what is past experience with 4th thought?", key ="p4")
-
-# Display chain
-    st.write(
-    f"{thought_1} → {thought_2} → {thought_3} → {thought_4}")
-
-    st.header("Step Two:Evaluate")
-    st.text_input("What emotions are stronger?")
-
-    st.header("Step 3: Select Actions")
-    wanting = st.text_input("What do you want to do?")
-    can_do= st.text_input("What you can do?")
-
-
-    st.header("Step 4: Take Actions")
 
 
 
@@ -637,10 +528,10 @@ if page == "Human Interaction guide":
                                                            index=None)
                                         if cuteEss == "Retaliator":
                                             st.write(
-                                            "A Retaliator behaves peacefully at first, but fights back if attacked.")
+                                            "Behave peacefully at first, but fights back if attacked.")
 
                                         elif cuteEss == "Prober-Retaliator":
-                                            st.write("Occasionally “tests” opponents with aggression")
+                                            st.write("Occasionally tests opponents with aggression")
 
 
                             elif care == "No":
@@ -657,8 +548,7 @@ if page == "Human Interaction guide":
                         st.write("Why are you desperate?, Consider changing "
                                  "your standards")
                     elif desperation == "No":
-                        st.text_input("Why do you desire this?")
-
+                        family=st.radio("Is it family?", binary_ans, index=None)
 
             # non-cute and undesirable
             elif type == "Undesirable":
@@ -682,7 +572,13 @@ if page == "Human Interaction guide":
                              "how many filters do you need to wear?")
 
         elif connection == "No":
-            st.radio("Maybe a connection?", binary_ans, index=None)
+            probableConectn= st.radio("Maybe a connection?", binary_ans, index=None)
+            if probableConectn == "yes":
+                st.write("Go with the flow")
+            elif probableConectn=="No":
+                st.caption("why are you meeting then?")
+
+
 
 
 
